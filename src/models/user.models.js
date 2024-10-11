@@ -36,12 +36,12 @@ const userSchema = new Schema(
         },
         watchHistory : [
           {
-            type : mongoose.Schema.ObjectId,
+            type :Schema.Types.ObjectId,
             ref : "Video",
           }  
         ],
         password : {
-            type : String,
+            type : String,  // Hashed Password
             required : [true, "Password is required"]
         },
         refreshToken : {
@@ -53,12 +53,14 @@ const userSchema = new Schema(
     }
 )
 
+
 userSchema.pre("save",async function (next){
     if (!this.isModified("password")) return next();
      
     this.password = await bcrypt.hash(this.password,10)
     next()
-})
+}) // events (validate,save,remove etc) and fn callback as input to .pre
+    // don't use arrow functions, because it doesn't contain the 'this' reference.
 
 userSchema.methods.isPasswordCorrect = async function (password) {
     return await bcrypt.compare(password,this.password)

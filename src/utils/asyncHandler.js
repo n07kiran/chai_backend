@@ -1,11 +1,11 @@
 
 const asyncHandler = (fn) => {
-    async ()=>{
+    async (req,res,next)=>{
         try{
             await fn(req,res,next);
         }catch(err){
             res.status(err.code || 500).json({
-                status: false,
+                success: false,
                 message : err.message
             })
         }
@@ -13,3 +13,14 @@ const asyncHandler = (fn) => {
 }
 
 export {asyncHandler}
+
+
+
+
+const asyncHandler2 = (fn)=>
+    async (req,res,next) => {
+        try{
+            await fn(req,res,next)
+        }catch(err){
+        }
+    }
