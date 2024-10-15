@@ -1,12 +1,17 @@
 
 const asyncHandler = (fn) => {
-    async (req,res,next)=>{
+    return async (req,res,next)=>{
         try{
             await fn(req,res,next);
-        }catch(err){
-            res.status(err.code || 500).json({
+        }catch(ApiError){
+            const statusCode = ApiError.statusCode && ApiError.statusCode <= 599 && ApiError.statusCode >= 100 ? ApiError.statusCode : 500
+            const message = ApiError.message
+
+            console.log("Async handler error : ",message)
+
+            res.status(statusCode).json({
                 success: false,
-                message : err.message
+                message : message
             })
         }
     }
@@ -17,10 +22,13 @@ export {asyncHandler}
 
 
 
-const asyncHandler2 = (fn)=>
-    async (req,res,next) => {
-        try{
-            await fn(req,res,next)
-        }catch(err){
-        }
-    }
+
+
+
+// const asyncHandler2 = (fn)=>
+//     async (req,res,next) => {
+//         try{
+//             await fn(req,res,next)
+//         }catch(err){
+//         }
+//     }

@@ -10,7 +10,7 @@ cloudinary.config({
 
 const uploadOnCloudinary = async (localFilePath) =>{
     try{
-
+        
         if(!fs.existsSync(localFilePath)){
             console.log("Local file does not exists 'uploadOnCloudinary' func ");
             return null
@@ -20,8 +20,9 @@ const uploadOnCloudinary = async (localFilePath) =>{
             resource_type:"auto"
         })
 
-        console.log("File uploaded successfully !")
-        console.log("Public Url : ",response.url)
+        // console.log("File uploaded successfully !")
+        // console.log("Public Url : ",response.url)
+        fs.unlinkSync(localFilePath)
         return response
     }catch(error){
         fs.unlinkSync(localFilePath); // shouldn't we retry uploading : Doubt ??
