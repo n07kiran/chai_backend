@@ -7,7 +7,7 @@ const asyncHandler = (fn) => {
             const statusCode = ApiError.statusCode && ApiError.statusCode <= 599 && ApiError.statusCode >= 100 ? ApiError.statusCode : 500
             const message = ApiError.message
 
-            console.log("Async handler error : ",message)
+            console.log("Async handler error : ",message,"\nStatus Code : ",statusCode)
 
             res.status(statusCode).json({
                 success: false,
